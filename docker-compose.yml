@@ -1,7 +1,9 @@
-# Creating plex container
 ---
 version: "2"
 services:
+
+# Creating plex container
+
   plex:
     image: linuxserver/plex
     container_name: plex
@@ -19,9 +21,7 @@ services:
 
 
 # Creating rutorrent container
----
-version: "2"
-services:
+
   rutorrent:
     image: linuxserver/rutorrent
     container_name: rutorrent
@@ -36,4 +36,20 @@ services:
       - 5000:5000
       - 51413:51413
       - 6881:6881/udp
+    restart: unless-stopped
+
+# Tautulli container for monitoring, analytics and notification
+
+  tautulli:
+    image: linuxserver/tautulli
+    container_name: tautulli
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Buenos_Aires
+    volumes:
+      - path to data:/config
+      - path to plex logs:/logs
+    ports:
+      - 8181:8181
     restart: unless-stopped
